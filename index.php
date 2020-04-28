@@ -210,6 +210,7 @@ function processButtons() {
                 }
                 $product          = API::getProductInfo(sanitizeString($gidSelected));
                 $previousBarcodes = $product["barcode"];
+                $quFactor = $product["qu_factor_purchase_to_stock"];
                 if ($previousBarcodes == NULL) {
                     API::setBarcode($gidSelected, $barcode);
                 } else {
@@ -226,7 +227,7 @@ function processButtons() {
                         outputLog("Consuming $amount " . $product["unit"] . " of " . $product["name"], EVENT_TYPE_ADD_KNOWN_BARCODE, false, false);
                 } else {
                     $additionalLog = "";
-                    if (!API::purchaseProduct($gidSelected, $amount)) {
+                    if (!API::purchaseProduct($gidSelected, $amount, $quFactor)) {
                         $additionalLog = " [WARNING]: No default best before date set!";
                     }
                     outputLog("Adding $amount " . $product["unit"] . " of " . $product["name"].$additionalLog, EVENT_TYPE_ADD_KNOWN_BARCODE, false, false);

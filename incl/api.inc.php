@@ -170,6 +170,7 @@ class API {
                 $resultArray["unit"]                     = sanitizeString($result["quantity_unit_stock"]["name"]);
                 $resultArray["stockAmount"]              = sanitizeString($result["stock_amount"]);
                 $resultArray["default_best_before_days"] = $result["product"]["default_best_before_days"];
+                $resultArray["qu_factor_purchase_to_stock"] = $result["product"]["qu_factor_purchase_to_stock"];
                 if ($resultArray["stockAmount"] == null) {
                     $resultArray["stockAmount"] = "0";
                 }
@@ -299,13 +300,13 @@ class API {
      * @param  String price of product Default: null
      * @return false if default best before date not set
      */
-    public static function purchaseProduct($id, $amount, $bestbefore = null, $price = null) {
+    public static function purchaseProduct($id, $amount, $quFactor, $bestbefore = null, $price = null) {
         require_once __DIR__ . "/db.inc.php";
         global $BBCONFIG;
         
         $daysBestBefore = 0;
         $data = array(
-            'amount' => $amount,
+            'amount' => $amount * $quFactor,
             'transaction_type' => 'purchase'
         );
 
