@@ -43,7 +43,7 @@ RUN \
 #Max children need to be a higher value, otherwise websockets / SSE might not work properly
 
 # copy local files
-COPY root/ /
+# COPY root/ /
 
 # ports and volumes
 EXPOSE 80 443
